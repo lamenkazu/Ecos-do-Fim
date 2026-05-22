@@ -4,7 +4,7 @@ import babel from '@rolldown/plugin-babel'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/ficha-de-personagem/',
+  base: '/Ecos-do-Fim/',
   plugins: [
     react(),
     babel({ presets: [reactCompilerPreset()] }),
