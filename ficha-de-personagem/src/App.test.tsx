@@ -181,7 +181,12 @@ describe('App', () => {
     })
 
     const firstFromCall = html2pdfMock.from.mock.calls[0]
-    const pdfElement = firstFromCall?.[0]
+
+    if (!firstFromCall) {
+      throw new Error('html2pdf.from should have been called once.')
+    }
+
+    const pdfElement = firstFromCall[0]
 
     expect(pdfElement).toBeInstanceOf(HTMLDivElement)
     expect(pdfElement).toHaveTextContent('Álya dos Ecos')
