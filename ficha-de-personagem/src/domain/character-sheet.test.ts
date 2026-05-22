@@ -13,6 +13,7 @@ describe('createDefaultCharacterSheet', () => {
 
     expect(sheet.schemaVersion).toBe(CHARACTER_SHEET_SCHEMA_VERSION)
     expect(sheet.level).toBe(1)
+    expect(sheet.vitals.armorClass).toBeNull()
     expect(sheet.passiveAbilities).toHaveLength(1)
     expect(sheet.activeAbilities).toHaveLength(1)
     expect(sheet.passiveAbilities[0]?.id).toBeTruthy()

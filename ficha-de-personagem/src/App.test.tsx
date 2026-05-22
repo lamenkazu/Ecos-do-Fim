@@ -8,7 +8,10 @@ import {
 } from './repositories/character-sheet-repository'
 
 const html2pdfMock = vi.hoisted(() => {
-  const save = vi.fn(async (_filename?: string) => undefined)
+  const save = vi.fn(async (filename?: string) => {
+    void filename
+    return undefined
+  })
   const from = vi.fn((source: HTMLElement) => ({ save, source }))
   const set = vi.fn((options: Record<string, unknown>) => ({ from, options }))
   const factory = vi.fn(() => ({ set }))
@@ -45,12 +48,14 @@ describe('App', () => {
     const nameInput = screen.getByLabelText('Nome do Personagem')
     const biographyInput = screen.getByLabelText('Biografia')
     const lifeCurrentInput = screen.getByLabelText('Vida atual')
+    const armorClassInput = screen.getByLabelText('Classe de Armadura')
     const etherMaxInput = screen.getByLabelText('Éter máximo')
 
     await user.clear(nameInput)
     await user.type(nameInput, 'Alya')
     await user.type(biographyInput, 'Cronista dos ecos antigos.')
     await user.type(lifeCurrentInput, '37')
+    await user.type(armorClassInput, '18')
     await user.type(etherMaxInput, '12')
 
     await waitFor(() => {
@@ -59,12 +64,17 @@ describe('App', () => {
       ) as {
         identity?: { name?: string }
         biography?: string
-        vitals?: { life?: { current?: number }; ether?: { max?: number } }
+        vitals?: {
+          armorClass?: number
+          life?: { current?: number }
+          ether?: { max?: number }
+        }
       }
 
       expect(persisted.identity?.name).toBe('Alya')
       expect(persisted.biography).toBe('Cronista dos ecos antigos.')
       expect(persisted.vitals?.life?.current).toBe(37)
+      expect(persisted.vitals?.armorClass).toBe(18)
       expect(persisted.vitals?.ether?.max).toBe(12)
     })
   })

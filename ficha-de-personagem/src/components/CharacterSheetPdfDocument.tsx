@@ -1,3 +1,4 @@
+import { FiShield } from 'react-icons/fi'
 import { forwardRef, type CSSProperties } from 'react'
 import {
   ATTRIBUTE_DEFINITIONS,
@@ -86,6 +87,20 @@ export const CharacterSheetPdfDocument = forwardRef<
               <span className="pdf-vital-number">{renderNumberValue(sheet.vitals.life.current)}</span>
               <span className="vital-sep">/</span>
               <span className="pdf-vital-number">{renderNumberValue(sheet.vitals.life.max)}</span>
+            </div>
+          </div>
+          <div className="vital-bar vital-ca pdf-avoid-break">
+            <div className="vital-header">
+              <span className="vital-name vital-ca">
+                <FiShield aria-hidden="true" />
+                <span>CA</span>
+              </span>
+              <span className="vital-sub">classe de armadura</span>
+            </div>
+            <div className="pdf-armor-class-value">
+              <span className="pdf-vital-number">
+                {renderNumberValue(sheet.vitals.armorClass)}
+              </span>
             </div>
           </div>
           <div className="vital-bar vital-ether pdf-avoid-break">

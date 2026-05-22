@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { FiDownload } from 'react-icons/fi'
 import './App.css'
 import { AbilityListSection } from './components/AbilityListSection'
+import { ArmorClassField } from './components/ArmorClassField'
 import { AttributeField } from './components/AttributeField'
 import { CharacterSheetPdfDocument } from './components/CharacterSheetPdfDocument'
 import { LevelBadge } from './components/LevelBadge'
@@ -395,6 +396,18 @@ function App({ repository = browserRepository ?? new LocalStorageCharacterSheetR
               maxValue={sheet.vitals.life.max}
               onCurrentChange={(value) => updateVital('life', 'current', value)}
               onMaxChange={(value) => updateVital('life', 'max', value)}
+            />
+            <ArmorClassField
+              value={sheet.vitals.armorClass}
+              onChange={(value) =>
+                updateSheet((current) => ({
+                  ...current,
+                  vitals: {
+                    ...current.vitals,
+                    armorClass: value,
+                  },
+                }))
+              }
             />
             <VitalField
               name="Éter"

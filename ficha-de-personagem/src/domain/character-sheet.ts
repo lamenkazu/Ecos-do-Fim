@@ -25,6 +25,7 @@ export interface CharacterSheet {
       current: number | null
       max: number | null
     }
+    armorClass: number | null
     ether: {
       current: number | null
       max: number | null
@@ -111,6 +112,7 @@ export function createDefaultCharacterSheet(): CharacterSheet {
         current: null,
         max: null,
       },
+      armorClass: null,
       ether: {
         current: null,
         max: null,
@@ -157,7 +159,7 @@ export function normalizeCharacterSheet(value: unknown): CharacterSheet | null {
   const passiveAbilities = normalizeAbilities(value.passiveAbilities)
   const activeAbilities = normalizeAbilities(value.activeAbilities)
 
-  if (!identity || !life || !ether || !attributes || !equipment) {
+  if (!identity || !vitals || !life || !ether || !attributes || !equipment) {
     return null
   }
 
@@ -181,6 +183,7 @@ export function normalizeCharacterSheet(value: unknown): CharacterSheet | null {
         current: normalizeNullableNumber(life.current),
         max: normalizeNullableNumber(life.max),
       },
+      armorClass: normalizeNullableNumber(vitals.armorClass),
       ether: {
         current: normalizeNullableNumber(ether.current),
         max: normalizeNullableNumber(ether.max),

@@ -444,7 +444,7 @@ textarea {
 
 .vitals-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -476,10 +476,30 @@ textarea {
   color: var(--blue-light);
 }
 
+.vital-ca {
+  color: var(--green-light);
+}
+
 .vital-inputs {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.armor-class-input-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 42px;
+}
+
+.armor-class-input-wrap input {
+  width: 92px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  padding: 2px 0;
+  color: inherit;
 }
 
 .vital-inputs input {
@@ -513,6 +533,26 @@ textarea {
 
 .vital-ether input:focus {
   border-bottom-color: var(--blue-light);
+}
+
+.vital-ca input {
+  color: var(--green-light);
+  border-bottom-color: var(--green-light);
+}
+
+.vital-ca input:focus {
+  border-bottom-color: #79b979;
+}
+
+.vital-name.vital-ca {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vital-name.vital-ca svg {
+  width: 14px;
+  height: 14px;
 }
 
 .vital-sub {
@@ -898,6 +938,13 @@ textarea {
   font-size: 22px;
   font-weight: 600;
   line-height: 1.1;
+}
+
+.pdf-armor-class-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 42px;
 }
 
 .pdf-attribute-value {
