@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+:root {
+  --bg: #0e0c0a;
+  --parchment: #1a1610;
+  --border: #6b4f2a;
+  --gold: #c9913a;
+  --gold-light: #e8be6a;
+  --gold-dim: #7a5520;
+  --ink: #d4c4a0;
+  --ink-dim: #8a7a5a;
+  --red: #8b2020;
+  --red-light: #c44040;
+  --blue: #1a3a5c;
+  --blue-light: #4a7aac;
+  --green-light: #4a8a4a;
+  color: var(--ink);
+  font-family: 'Crimson Pro', serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) rgba(0, 0, 0, 0.22);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--gold-dim), var(--gold));
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--gold), var(--gold-light));
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(60, 40, 10, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(30, 20, 5, 0.5) 0%, transparent 60%);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  appearance: none;
+}
+
+.sheet-shell {
+  min-height: 100vh;
+  padding: 30px 20px;
+}

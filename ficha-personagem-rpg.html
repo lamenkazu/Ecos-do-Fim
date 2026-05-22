@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Personagem</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0c0a;
+    --parchment: #1a1610;
+    --border: #6b4f2a;
+    --gold: #c9913a;
+    --gold-light: #e8be6a;
+    --gold-dim: #7a5520;
+    --ink: #d4c4a0;
+    --ink-dim: #8a7a5a;
+    --red: #8b2020;
+    --red-light: #c44040;
+    --blue: #1a3a5c;
+    --blue-light: #4a7aac;
+    --green: #1a3a1a;
+    --green-light: #4a8a4a;
+    --glow: rgba(201, 145, 58, 0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(60, 40, 10, 0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(30, 20, 5, 0.5) 0%, transparent 60%);
+    font-family: 'Crimson Pro', serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 30px 20px;
+  }
+
+  .sheet {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--parchment);
+    border: 2px solid var(--border);
+    box-shadow:
+      0 0 60px rgba(201, 145, 58, 0.1),
+      inset 0 0 80px rgba(0,0,0,0.4),
+      0 0 0 6px #0e0c0a,
+      0 0 0 8px var(--gold-dim);
+    position: relative;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Corner ornaments */
+  .sheet::before, .sheet::after {
+    content: '✦';
+    position: absolute;
+    font-size: 22px;
+    color: var(--gold);
+    top: 12px;
+  }
+  .sheet::before { left: 16px; }
+  .sheet::after { right: 16px; }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 32px 40px 20px;
+    border-bottom: 1px solid var(--gold-dim);
+    position: relative;
+  }
+
+  .header-ornament {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 8px;
+  }
+
+  .title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .divider-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    margin: 8px 0;
+  }
+
+  /* IDENTITY SECTION */
+  .identity {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  .id-col {
+    padding: 20px 28px;
+    border-right: 1px solid var(--gold-dim);
+  }
+  .id-col:last-child { border-right: none; }
+
+  /* LEVEL BADGE */
+  .level-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--gold-dim);
+    background: linear-gradient(to bottom, rgba(201,145,58,0.05), transparent);
+  }
+
+  .level-badge {
+    width: 80px;
+    height: 80px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 20px rgba(201,145,58,0.2), inset 0 0 20px rgba(0,0,0,0.3);
+  }
+  .level-badge::before {
+    content: '';
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 50%;
+  }
+
+  .level-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .level-value {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .level-input-wrap {
+    margin-top: 6px;
+  }
+
+  /* FIELDS */
+  .field {
+    margin-bottom: 14px;
+  }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 4px;
+  }
+
+  input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--gold-dim);
+    color: var(--ink);
+    font-family: 'Crimson Pro', serif;
+    font-size: 15px;
+    padding: 3px 0 4px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    border-bottom-color: var(--gold);
+  }
+  input[type="text"]::placeholder, textarea::placeholder {
+    color: rgba(138, 122, 90, 0.3);
+    font-style: italic;
+  }
+  input[type="number"] {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  textarea {
+    resize: none;
+    line-height: 1.6;
+    font-size: 13px;
+  }
+
+  /* SECTION HEADERS */
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    padding: 10px 0 6px;
+    position: relative;
+  }
+  .section-title::before, .section-title::after {
+    content: '—';
+    color: var(--gold-dim);
+    margin: 0 10px;
+  }
+
+  /* VITALS */
+  .vitals-section {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 16px 28px;
+  }
+
+  .vitals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .vital-bar {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--gold-dim);
+    padding: 12px 16px;
+  }
+
+  .vital-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .vital-name {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .vital-hp { color: var(--red-light); }
+  .vital-ether { color: var(--blue-light); }
+
+  .vital-inputs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .vital-inputs input {
+    width: 60px;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    padding: 2px 0;
+    color: inherit;
+  }
+  .vital-sep {
+    color: var(--ink-dim);
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .vital-hp input { color: var(--red-light); border-color: var(--red); }
+  .vital-hp input:focus { border-color: var(--red-light); }
+  .vital-ether input { color: var(--blue-light); border-color: var(--blue-light); }
+  .vital-ether input:focus { border-color: var(--blue-light); }
+  .vital-sub { font-size: 10px; color: var(--ink-dim); }
+
+  /* ATTRIBUTES */
+  .attrs-section {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 16px 28px;
+  }
+
+  .attrs-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+
+  .attr-box {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid var(--gold-dim);
+    padding: 10px 6px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .attr-box:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 12px rgba(201,145,58,0.15);
+  }
+
+  .attr-name {
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .attr-value {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1;
+    display: block;
+  }
+  .attr-value input {
+    width: 100%;
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--gold-light);
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid var(--gold-dim);
+    background: transparent;
+    padding: 0;
+  }
+  .attr-value input:focus { border-bottom-color: var(--gold); }
+
+  /* ABILITIES */
+  .abilities-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  .ability-col {
+    padding: 16px 28px;
+  }
+  .ability-col:first-child { border-right: 1px solid var(--gold-dim); }
+
+  .ability-tag {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid;
+    margin-bottom: 8px;
+  }
+  .tag-passive { color: var(--green-light); border-color: var(--green-light); }
+  .tag-active { color: var(--gold); border-color: var(--gold); }
+
+  .ability-name-field {
+    margin-bottom: 8px;
+  }
+
+  /* BOTTOM SECTIONS */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .bottom-col {
+    padding: 16px 28px;
+  }
+  .bottom-col:first-child { border-right: 1px solid var(--gold-dim); }
+
+  /* BIO + PERSONALITY */
+  .full-section {
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 5px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; padding: 0; }
+    .sheet { box-shadow: none; border: 1px solid #999; }
+    input, textarea { border-bottom-color: #999 !important; }
+  }
+
+  @media (max-width: 600px) {
+    .identity { grid-template-columns: 1fr 1fr; }
+    .attrs-grid { grid-template-columns: repeat(3, 1fr); }
+    .abilities-section, .bottom-grid { grid-template-columns: 1fr; }
+    .ability-col:first-child, .bottom-col:first-child { border-right: none; border-bottom: 1px solid var(--gold-dim); }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-ornament">✦ &nbsp; Codex Arcanum &nbsp; ✦</div>
+    <div class="title">Ficha de Personagem</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- IDENTITY ROW 1: Nome + Nível -->
+  <div style="display:grid; grid-template-columns: 1fr 100px; border-bottom: 1px solid var(--gold-dim);">
+    <div style="padding: 18px 28px; border-right: 1px solid var(--gold-dim);">
+      <div class="field">
+        <label>Nome do Personagem</label>
+        <input type="text" placeholder="Como és chamado...">
+      </div>
+    </div>
+    <div style="padding: 14px 16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;">
+      <div class="level-badge">
+        <span class="level-label">Nível</span>
+        <input type="number" class="level-value" min="1" max="99" value="" style="width:50px; font-family:'Cinzel',serif; font-size:26px; font-weight:900; color:var(--gold); text-align:center; border:none; border-bottom:1px solid var(--gold-dim); background:transparent; padding:0; outline:none;" placeholder="1">
+      </div>
+    </div>
+  </div>
+
+  <!-- IDENTITY ROW 2 -->
+  <div class="identity">
+    <div class="id-col">
+      <div class="field">
+        <label>Idade</label>
+        <input type="text" placeholder="Anos vividos...">
+      </div>
+      <div class="field">
+        <label>Profissão</label>
+        <input type="text" placeholder="Ofício ou vocação...">
+      </div>
+    </div>
+    <div class="id-col">
+      <div class="field">
+        <label>Origem</label>
+        <input type="text" placeholder="Terra natal ou linhagem...">
+      </div>
+      <div class="field">
+        <label>Afiliação</label>
+        <input type="text" placeholder="Guilda, facção ou ordem...">
+      </div>
+    </div>
+    <div class="id-col">
+      <div class="field">
+        <label>Personalidade</label>
+        <textarea rows="4" placeholder="Traços, manias, virtudes e defeitos..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- VITALS -->
+  <div class="vitals-section">
+    <div class="section-title">Pontos Vitais</div>
+    <div class="vitals-grid">
+      <div class="vital-bar vital-hp">
+        <div class="vital-header">
+          <span class="vital-name vital-hp">❤ Vida</span>
+          <span class="vital-sub">atual / máximo</span>
+        </div>
+        <div class="vital-inputs">
+          <input type="number" class="vital-hp" placeholder="—" min="0">
+          <span class="vital-sep">/</span>
+          <input type="number" class="vital-hp" placeholder="—" min="0">
+        </div>
+      </div>
+      <div class="vital-bar vital-ether">
+        <div class="vital-header">
+          <span class="vital-name vital-ether">✦ Éter</span>
+          <span class="vital-sub">atual / máximo</span>
+        </div>
+        <div class="vital-inputs">
+          <input type="number" class="vital-ether" placeholder="—" min="0">
+          <span class="vital-sep">/</span>
+          <input type="number" class="vital-ether" placeholder="—" min="0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTRIBUTES -->
+  <div class="attrs-section">
+    <div class="section-title">Atributos</div>
+    <div class="attrs-grid">
+      <div class="attr-box">
+        <span class="attr-name">Força</span>
+        <span class="attr-value"><input type="number" placeholder="0" min="0" max="99"></span>
+      </div>
+      <div class="attr-box">
+        <span class="attr-name">Destreza</span>
+        <span class="attr-value"><input type="number" placeholder="0" min="0" max="99"></span>
+      </div>
+      <div class="attr-box">
+        <span class="attr-name">Constituição</span>
+        <span class="attr-value"><input type="number" placeholder="0" min="0" max="99"></span>
+      </div>
+      <div class="attr-box">
+        <span class="attr-name">Inteligência</span>
+        <span class="attr-value"><input type="number" placeholder="0" min="0" max="99"></span>
+      </div>
+      <div class="attr-box">
+        <span class="attr-name">Carisma</span>
+        <span class="attr-value"><input type="number" placeholder="0" min="0" max="99"></span>
+      </div>
+      <div class="attr-box" style="border-color: var(--gold-dim); background: rgba(201,145,58,0.05);">
+        <span class="attr-name" style="color:var(--gold);">Mod. Total</span>
+        <span class="attr-value"><input type="number" placeholder="0" min="-99" max="99" style="color:var(--gold);"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABILITIES -->
+  <div class="abilities-section">
+    <div class="ability-col">
+      <span class="ability-tag tag-passive">⬟ Passiva</span>
+      <div class="ability-name-field field">
+        <label>Nome da Habilidade</label>
+        <input type="text" placeholder="Título da habilidade...">
+      </div>
+      <div class="field">
+        <label>Descrição</label>
+        <textarea rows="4" placeholder="Efeito permanente ou bônus passivo..."></textarea>
+      </div>
+    </div>
+    <div class="ability-col">
+      <span class="ability-tag tag-active">⬡ Ativa</span>
+      <div class="ability-name-field field">
+        <label>Nome da Habilidade</label>
+        <input type="text" placeholder="Título da habilidade...">
+      </div>
+      <div class="field">
+        <label>Descrição</label>
+        <textarea rows="4" placeholder="Custo, alcance, efeito e condições..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVENTORY + EQUIPMENT -->
+  <div class="bottom-grid">
+    <div class="bottom-col">
+      <div class="section-title" style="text-align:left; font-size:9px; padding-top:0;">⚔ Equipamento</div>
+      <div class="field">
+        <label>Arma Principal</label>
+        <input type="text" placeholder="">
+      </div>
+      <div class="field">
+        <label>Armadura / Proteção</label>
+        <input type="text" placeholder="">
+      </div>
+      <div class="field">
+        <label>Acessório 1</label>
+        <input type="text" placeholder="">
+      </div>
+      <div class="field">
+        <label>Acessório 2</label>
+        <input type="text" placeholder="">
+      </div>
+      <div class="field">
+        <label>Item Especial</label>
+        <input type="text" placeholder="">
+      </div>
+    </div>
+    <div class="bottom-col">
+      <div class="section-title" style="text-align:left; font-size:9px; padding-top:0;">⊞ Inventário</div>
+      <textarea rows="10" placeholder="Liste os itens carregados, consumíveis, materiais, moedas e relíquias..."></textarea>
+    </div>
+  </div>
+
+  <!-- BIOGRAPHY -->
+  <div class="full-section">
+    <div class="section-title">Biografia</div>
+    <textarea rows="6" placeholder="A história do personagem — de onde veio, o que viveu, o que o trouxe até aqui..."></textarea>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    ✦ &nbsp; que os dados estejam a seu favor &nbsp; ✦
+  </div>
+
+</div>
+
+</body>
+</html>
