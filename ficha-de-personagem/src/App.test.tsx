@@ -21,7 +21,6 @@ vi.mock(
   () => ({
     default: html2pdfMock.factory,
   }),
-  { virtual: true },
 )
 
 describe('App', () => {
@@ -181,7 +180,8 @@ describe('App', () => {
       expect(html2pdfMock.save).toHaveBeenCalledTimes(1)
     })
 
-    const pdfElement = html2pdfMock.from.mock.calls[0]?.[0]
+    const firstFromCall = html2pdfMock.from.mock.calls[0]
+    const pdfElement = firstFromCall?.[0]
 
     expect(pdfElement).toBeInstanceOf(HTMLDivElement)
     expect(pdfElement).toHaveTextContent('Álya dos Ecos')

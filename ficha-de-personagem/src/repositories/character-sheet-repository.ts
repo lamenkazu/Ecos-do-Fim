@@ -14,10 +14,16 @@ export interface CharacterSheetRepository {
 export class LocalStorageCharacterSheetRepository
   implements CharacterSheetRepository
 {
+  private readonly storage: Storage
+  private readonly storageKey: string
+
   constructor(
-    private readonly storage: Storage = window.localStorage,
-    private readonly storageKey: string = CHARACTER_SHEET_STORAGE_KEY,
-  ) {}
+    storage: Storage = window.localStorage,
+    storageKey: string = CHARACTER_SHEET_STORAGE_KEY,
+  ) {
+    this.storage = storage
+    this.storageKey = storageKey
+  }
 
   async load(): Promise<CharacterSheet> {
     try {

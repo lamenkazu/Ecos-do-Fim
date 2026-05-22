@@ -33,7 +33,7 @@ export function LevelBadge({
   onIncrement,
   onDecrement,
 }: LevelBadgeProps) {
-  const shouldReduceMotion = useReducedMotion()
+  const shouldReduceMotion = useReducedMotion() ?? false
   const [activeEffect, setActiveEffect] = useState<ActiveEffect | null>(null)
   const [effectId, setEffectId] = useState(0)
 
