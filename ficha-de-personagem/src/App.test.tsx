@@ -8,9 +8,9 @@ import {
 } from './repositories/character-sheet-repository'
 
 const html2pdfMock = vi.hoisted(() => {
-  const save = vi.fn().mockResolvedValue(undefined)
-  const from = vi.fn(() => ({ save }))
-  const set = vi.fn(() => ({ from }))
+  const save = vi.fn(async (_filename?: string) => undefined)
+  const from = vi.fn((source: HTMLElement) => ({ save, source }))
+  const set = vi.fn((options: Record<string, unknown>) => ({ from, options }))
   const factory = vi.fn(() => ({ set }))
 
   return { factory, from, save, set }
